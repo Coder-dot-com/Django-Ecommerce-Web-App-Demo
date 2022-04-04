@@ -1,3 +1,4 @@
+from unicodedata import category
 from django.shortcuts import redirect, render
 
 from .forms import ReviewForm
@@ -23,10 +24,13 @@ def product_detail(request, category_slug, product_slug):
 
     reviews = ReviewRating.objects.filter(product=product, visible=True)
 
+    related_products = Product.objects.filter(category=product.category)
+
     context = {
         'product': product,
         'product_gallery': product_gallery,
         'reviews': reviews,
+        'related_products': related_products,
     }
 
 
