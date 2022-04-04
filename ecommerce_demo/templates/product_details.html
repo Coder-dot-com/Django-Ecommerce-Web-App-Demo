@@ -110,14 +110,17 @@
                                     <li><a title="Yellow" class="active yellow" href="#">yellow</a></li>
                                     <li><a title="Purple" class="purple" href="#">purple</a></li>
                                 </ul> {% endcomment %}
+                            <form action="{% url 'add_cart' product.id %}" method="POST" id="add_cart">
+                                {% csrf_token %}
                             </div>
                             <div class="product-details-action-wrap">
                                 <div class="product-quality">
-                                    <input class="cart-plus-minus-box input-text qty text" name="qtybutton" value="1">
+                                    <input class="cart-plus-minus-box input-text qty text" name="quantity" value="1">
                                 </div>
                                 <div class="single-product-cart btn-hover">
-                                    <a href="#">Add to cart</a>
+                                    <a href="javascript:{}" onclick="document.getElementById('add_cart').submit();">Add to cart</a>
                                 </div>
+                            </form>
 
                             </div>
                             <div class="product-details-meta">

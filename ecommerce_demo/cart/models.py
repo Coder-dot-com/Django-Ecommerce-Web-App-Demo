@@ -31,12 +31,14 @@ class CartItem(models.Model):
     price = models.DecimalField(max_digits=7, decimal_places=2)
     sub_total = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
     quantity = models.IntegerField()
+    
+    def save(self, *args, **kwargs):
 
-   
-
-    def calculate_sub_total(self):
         self.sub_total = self.price * self.quantity
-        self.save()
+
+        super(CartItem, self).save(*args, **kwargs)
+
+
 
 
 
