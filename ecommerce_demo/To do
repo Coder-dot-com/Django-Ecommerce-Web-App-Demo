@@ -1,13 +1,14 @@
-
-
-
-
-Finish off other pages (about, contact us etc....)
-
-
-Finish off header and footer with page links
-
 Add to cart functionality
+-created carts models
+
+-Need to handle post request when user adds to cart
+
+-Render cart items on cart page
+
+-Make all buttons on cart page function
+
+-Shipping will be chosen on the cart page by the user
+
 
 Checkout
 
@@ -15,3 +16,5 @@ Order confirmed
 
 Order Email
 -use celery
+
+Dockerize and prepare projects for deployment and continous development
