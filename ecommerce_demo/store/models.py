@@ -85,3 +85,16 @@ class ProductGallery(models.Model):
         return True
 
 
+
+class ReviewRating(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    review = models.TextField(max_length=5000, blank=True) 
+    rating = models.FloatField()
+    visible = models.BooleanField(default=True)
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    name = models.CharField(max_length=100, blank=False)
+    email =  models.EmailField()
+
+    def __str__(self):
+        return self.email

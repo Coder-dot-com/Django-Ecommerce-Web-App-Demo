@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from store.models import Product, ProductGallery
+from store.models import Product, ProductGallery, ReviewRating
 
 class ProductGalleryInline(admin.TabularInline):
     model = ProductGallery
@@ -12,4 +12,10 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('product_name',)}
     inlines = [ProductGalleryInline]
 
+
+
+
 admin.site.register(Product, ProductAdmin)
+
+
+admin.site.register(ReviewRating)

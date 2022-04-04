@@ -1,0 +1,21 @@
+
+/* Review stars */
+
+.review-stars-hover input:checked ~ label, .review-stars-hover label:hover ~ label {
+    color: #ffb503;
+}
+
+
+input:checked + label:hover, input:checked ~ label:hover, input:checked ~ label:hover ~ label,
+label:hover ~ input:checked ~ label{
+    color: #cc9000;
+
+}
+
+.rating-star {
+	margin: 5px 0;
+}
+
+.rating-star i {
+    color: #ffb503;
+}
