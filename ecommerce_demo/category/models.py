@@ -1,3 +1,4 @@
+from audioop import reverse
 from django.db import models
 
 # Create your models here.
@@ -15,3 +16,8 @@ class Category(models.Model):
 
     def __str__(self):
         return self.category_name
+
+    def get_url(self):
+        
+        return reverse('shop_category', args=[self.slug])
+      

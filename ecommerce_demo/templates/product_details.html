@@ -260,7 +260,7 @@
                 <div class="related-product-active swiper-container">
                     <div class="swiper-wrapper">
                         {% for related_prod in related_products %}
-                        {% if  related_prod.id != product.id %} 
+                        {% if  related_prod.id != product.id and forloop.counter < 5 %} 
                         <div class="">
                             <div class="product-wrap" data-aos="fade-up" data-aos-delay="200">
                                 <div class="product-img img-zoom mb-25">
