@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from category.models import Category
 
-from store.models import Product
+from store.models import Pages, Product
 
 def home(request):
 
@@ -13,3 +13,20 @@ def home(request):
         'categories': categories,
     }
     return render(request, 'home.html', context=context)
+
+
+def contact_us(request):
+    return render(request, 'contact-us.html')
+
+def page(request, page=None):
+    page = get_object_or_404(Pages, page_title=str(page))
+
+    context = {
+        'page': page,
+    }
+
+    return render(request, 'generic-page.html', context=context)
+
+
+
+ 

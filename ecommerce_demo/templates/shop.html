@@ -20,6 +20,7 @@
                             <div class="tab-content jump">
                                 <div id="shop-1" class="tab-pane active">
                                     <div class="row">
+                                        {% if products %}
                                         {% for product in products %}
                                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                             <div class="product-wrap mb-35" data-aos="fade-up" data-aos-delay="200">
@@ -47,6 +48,9 @@
                                             </div>
                                         </div>
                                         {% endfor %}
+                                        {% else %}
+                                        <h3>No products found</h3>
+                                        {% endif %}
 
 
                                     </div>

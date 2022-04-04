@@ -120,3 +120,17 @@ class ReviewRating(models.Model):
 
     def __str__(self):
         return self.email
+
+
+page_types = [
+    ("about", "about"),
+    ("privacy", "privacy"),
+    ("delivery", "delivery"),
+    ("terms", "terms"),
+
+]
+
+
+class Pages(models.Model):
+    page_title =  models.CharField(max_length=500, unique=True, choices=page_types)
+    page_content =  HTMLField(max_length=10000)

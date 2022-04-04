@@ -24,5 +24,11 @@ urlpatterns = [
     path('', views.home, name="home"),
     path('tinymce/', include('tinymce.urls')),
     path('shop/', include('store.urls')),
+    path('contact_us/', views.contact_us, name="contact_us"),
+    path('<str:page>/', views.page, name="page"),
+
+
+
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

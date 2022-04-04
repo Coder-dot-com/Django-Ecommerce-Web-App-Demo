@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from store.models import Product, ProductGallery, ReviewRating
+from store.models import Pages, Product, ProductGallery, ReviewRating
 
 class ProductGalleryInline(admin.TabularInline):
     model = ProductGallery
@@ -19,3 +19,5 @@ admin.site.register(Product, ProductAdmin)
 
 
 admin.site.register(ReviewRating)
+
+admin.site.register(Pages)

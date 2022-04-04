@@ -43,18 +43,7 @@
 <body>
     <div class="main-wrapper main-wrapper-2">
         <header class="header-area header-responsive-padding header-height-1">
-            <div class="header-top d-none d-lg-block bg-gray">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-6 col-6">
-                            <div class="welcome-text">
-                                <p>Default Welcome Msg! </p>
-                            </div>
-                        </div>
 
-                    </div>
-                </div>
-            </div>
             <div class="header-bottom sticky-bar">
                 <div class="container">
                     <div class="row align-items-center">
@@ -104,8 +93,8 @@
                                             </ul>
                                         </li>
 
-                                        <li><a href="about-us.html">ABOUT</a></li>
-                                        <li><a href="contact-us.html">CONTACT US</a></li>
+                                        <li><a href="{% url 'page' 'about' %}">ABOUT</a></li>
+                                        <li><a href="{% url 'contact_us' %}">CONTACT US</a></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -118,9 +107,9 @@
                                         <i class="pe-7s-close s-close"></i>
                                     </a>
                                     <div class="search-wrap-1">
-                                        <form action="#">
-                                            <input placeholder="Search products…" type="text">
-                                            <button class="button-search"><i class="pe-7s-search"></i></button>
+                                        <form action="{% url 'search' %}" method="GET">
+                                            <input name="keyword" placeholder="Search products…" type="text">
+                                            <button type="submit" class="button-search"><i class="pe-7s-search"></i></button>
                                         </form>
                                     </div>
                                 </div>

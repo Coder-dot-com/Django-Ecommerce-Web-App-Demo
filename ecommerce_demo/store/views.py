@@ -8,6 +8,7 @@ from .models import Product, ProductGallery, ReviewRating
 from django.contrib import messages
 
 from django.core.paginator import Paginator
+from django.db.models import Q
 
 
 # Create your views here.
@@ -107,3 +108,27 @@ def submit_review(request, product_id):
         except Exception as e:
             print("Exception",  e)
             return redirect(url)
+
+
+
+def search(request):
+    products = None
+    product_count = 0
+    if 'keyword' in request.GET:
+        keyword = request.GET['keyword']
+        if keyword:
+            products = Product.objects.order_by('created_date').filter(Q(description__icontains=keyword) | 
+            Q(category__category_name__icontains=keyword) |
+             Q(product_name__icontains=keyword)).filter(is_available=True)
+
+            product_count = products.count()
+
+    context = {
+        'products': products,
+        'product_count': product_count,
+    }
+
+
+
+
+    return render(request, 'shop.html', context)

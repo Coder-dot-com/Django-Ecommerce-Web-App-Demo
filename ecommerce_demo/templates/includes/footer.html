@@ -20,11 +20,11 @@
                         <div class="footer-widget footer-widget-margin-1 footer-list mb-40">
                             <h3 class="footer-title">Information</h3>
                             <ul>
-                                <li><a href="about-us.html">About Us</a></li>
-                                <li><a href="#">Delivery Information</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Terms & Conditions</a></li>
-                                <li><a href="#">Customer Service</a></li>
+                                <li><a href="{% url 'page' 'about' %}">About Us</a></li>
+                                <li><a href="{% url 'page' 'delivery' %}">Delivery Information</a></li>
+                                <li><a href="{% url 'page' 'privacy' %}">Privacy Policy</a></li>
+                                <li><a href="{% url 'page' 'terms' %}">Terms & Conditions</a></li>
+                                <li><a href="{% url 'contact_us' %}">Contact Us</a></li>
                             </ul>
                         </div>
                     </div>
@@ -154,10 +154,10 @@
                     </li>
 
                     <li>
-                        <a href="about-us.html">ABOUT US</a>
+                        <a href="{% url 'page' 'about' %}">ABOUT US</a>
                     </li>
                     <li>
-                        <a href="contact-us.html">CONTACT US</a>
+                        <a href="{% url 'contact_us' %}">CONTACT US</a>
                     </li>
                 </ul>
             </div>
