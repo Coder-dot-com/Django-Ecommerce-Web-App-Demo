@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from .models import Product
+from .models import Product, ProductGallery
 
 # Create your views here.
 
@@ -15,9 +15,12 @@ def product_detail(request, category_slug, product_slug):
 
     product = Product.objects.get(slug=product_slug)
 
+    product_gallery = ProductGallery.objects.filter(product=product)
+
 
     context = {
         'product': product,
+        'product_gallery': product_gallery,
     }
 
 
