@@ -1,19 +1,63 @@
-from unicodedata import category
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
+
+from category.models import Category
 
 from .forms import ReviewForm
 
 from .models import Product, ProductGallery, ReviewRating
 from django.contrib import messages
 
+from django.core.paginator import Paginator
+
+
 # Create your views here.
 
 def shop(request):
+
+    products = Product.objects.all().filter(is_available=True).order_by('id')
+    paginator = Paginator(products, 15)
+    page = request.GET.get('page')
+    paged_products = paginator.get_page(page)
+
+    product_count = products.count()
+
+    context = {
+        'products': paged_products,
+        'product_count': product_count,
+    }
+    
+    return render(request, 'shop.html', context=context)
+
+
+
     return render(request, 'shop.html')
 
 
 def shop_category(request, category_slug):
-    return 
+    category = get_object_or_404(Category, slug=category_slug)
+    products = Product.objects.filter(category=category, is_available=True).order_by('id')
+    paginator = Paginator(products, 15)
+    page = request.GET.get('page')
+    paged_products = paginator.get_page(page)
+
+    
+    product_count = products.count()
+
+
+    context = {
+        'products': paged_products,
+        'product_count': product_count,
+    }
+
+    return render(request, 'shop.html', context=context)
+
+
+
+
+
+
+
+
 
 def product_detail(request, category_slug, product_slug):
 
