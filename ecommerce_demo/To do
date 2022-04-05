@@ -1,11 +1,8 @@
-Add to cart functionality
-
--Shipping will be chosen on the cart page by the user
-(create model for shipping options and then on frontend update js dynamically)
 
 Slider Cart
 
 Checkout
+-then link on cart page
 
 Order confirmed
 

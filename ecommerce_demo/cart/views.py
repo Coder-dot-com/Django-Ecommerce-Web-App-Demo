@@ -98,6 +98,8 @@ def clear_cart(request):
 
 
 def remove_cart_item(request, cart_item_id):
+    url = request.META.get('HTTP_REFERER')
+
     try:
      
         cart = Cart.objects.get(cart_id=_cart_id(request))
@@ -107,7 +109,7 @@ def remove_cart_item(request, cart_item_id):
         print(e)
    
     
-    return redirect('cart')
+    return redirect(url)
 
 def increase_cart_item(request, cart_item_id):
     try:

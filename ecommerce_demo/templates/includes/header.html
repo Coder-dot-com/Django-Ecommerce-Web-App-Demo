@@ -121,7 +121,7 @@
                                 </div> {% endcomment %}
                                 <div class="header-action-style header-action-cart">
                                     <a class="cart-active" href="#"><i class="pe-7s-shopbag"></i>
-                                        <span class="product-count bg-black">01</span>
+                                        <span class="product-count bg-black">{{cart_count}}</span>
                                     </a>
                                 </div>
                                 <div class="header-action-style d-block d-lg-none">
@@ -140,40 +140,38 @@
                 <div class="cart-content">
                     <h3>Shopping Cart</h3>
                     <ul>
+
+                        {% if draw_cart_items %}
+
+                        {% for item in draw_cart_items  %}
                         <li>
                             <div class="cart-img">
                                 <a href="#"><img src="{% static 'assets/images/cart/cart-1.jpg' %}" alt=""></a>
                             </div>
                             <div class="cart-title">
-                                <h4><a href="#">Stylish Swing Chair</a></h4>
-                                <span> 1 × $49.00	</span>
+                                <h4><a href="#">{{item.product.product_name}}</a></h4>
+                                <span> {{item.quantity}} × ${{item.price}}	</span>
                             </div>
                             <div class="cart-delete">
-                                <a href="#">×</a>
+                                <a href="{% url 'remove_cart_item' item.id %}">×</a>
                             </div>
-                        </li>
-                        <li>
-                            <div class="cart-img">
-                                <a href="#"><img src="{% static 'assets/images/cart/cart-2.jpg' %}" alt=""></a>
-                            </div>
-                            <div class="cart-title">
-                                <h4><a href="#">Modern Chairs</a></h4>
-                                <span> 1 × $49.00	</span>
-                            </div>
-                            <div class="cart-delete">
-                                <a href="#">×</a>
-                            </div>
-                        </li>
+                        </li>     
+                        {% endfor %}
+
+
+
                     </ul>
                     <div class="cart-total">
-                        <h4>Subtotal: <span>$170.00</span></h4>
+                        <h4>Subtotal: <span>${{slider_total}}</span></h4>
                     </div>
                     <div class="cart-btn btn-hover">
-                        <a class="theme-color" href="cart.html">view cart</a>
+                        <a class="theme-color" href="{% url 'cart' %}">Continue</a>
                     </div>
-                    <div class="checkout-btn btn-hover">
-                        <a class="theme-color" href="checkout.html">checkout</a>
-                    </div>
+
+                    {% else %}
+                    <h3>Your cart is empty</h3>
+                    {% endif %}
+
                 </div>
             </div>
         </div>
