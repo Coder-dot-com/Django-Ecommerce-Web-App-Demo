@@ -21,6 +21,11 @@ from . import views
 urlpatterns = [
     path('', views.cart_page, name="cart"),
     path('add_cart/<int:product_id>/', views.add_cart, name="add_cart"),
+    path('clear_cart/', views.clear_cart, name="clear_cart"),
+    path('remove_cart_item/<cart_item_id>/', views.remove_cart_item, name="remove_cart_item"),
+    path('increase_cart_item/<cart_item_id>/', views.increase_cart_item, name="increase_cart_item"),
+    path('decrease_cart_item/<cart_item_id>/', views.decrease_cart_item, name="decrease_cart_item"),
+
 
 ]
 

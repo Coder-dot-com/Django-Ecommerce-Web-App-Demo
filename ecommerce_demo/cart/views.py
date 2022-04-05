@@ -12,9 +12,21 @@ def _cart_id(request):
     return cart
 
 def cart_page(request):
+
+    try:
+        
+        cart = Cart.objects.get(cart_id=_cart_id(request))
+    except Exception as e:
+        return redirect('shop')
+
+    cart_items = CartItem.objects.filter(cart=cart)
     
     
-    context = None
+    
+    context = {
+        'cart': cart,
+        'cart_items': cart_items,
+    }
 
     return render(request, 'cart.html', context=context)
 
@@ -66,4 +78,62 @@ def add_cart(request, product_id):
 
     #Save the data to a CartItem 
         
+    return redirect('cart')
+
+
+
+def clear_cart(request):
+    try:
+        
+        cart = Cart.objects.get(cart_id=_cart_id(request))
+        cart_items = CartItem.objects.filter(cart=cart).delete()
+    except Exception as e:
+        print(e)
+    
+    
+    return redirect('cart')
+
+
+def remove_cart_item(request, cart_item_id):
+    try:
+     
+        cart = Cart.objects.get(cart_id=_cart_id(request))
+        cart_item = CartItem.objects.get(cart=cart, id=cart_item_id).delete()
+    
+    except Exception as e:
+        print(e)
+   
+    
+    return redirect('cart')
+
+def increase_cart_item(request, cart_item_id):
+    try:
+     
+        cart = Cart.objects.get(cart_id=_cart_id(request))
+        cart_item = CartItem.objects.get(cart=cart, id=cart_item_id)
+        cart_item.quantity += 1
+        cart_item.save()
+    
+    except Exception as e:
+        print(e)
+   
+    
+    return redirect('cart')
+
+
+def decrease_cart_item(request, cart_item_id):
+    try:
+     
+        cart = Cart.objects.get(cart_id=_cart_id(request))
+        cart_item = CartItem.objects.get(cart=cart, id=cart_item_id)
+        cart_item.quantity -= 1
+        if cart_item.quantity < 1:
+            cart_item.delete() 
+        else:
+            cart_item.save()
+    
+    except Exception as e:
+        print(e)
+   
+    
     return redirect('cart')

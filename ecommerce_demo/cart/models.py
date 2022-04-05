@@ -46,3 +46,5 @@ class CartItem(models.Model):
         return f"{self.product.product_name} - {self.cart.cart_id}"
 
 
+
+

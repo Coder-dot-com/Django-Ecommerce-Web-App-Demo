@@ -1,14 +1,9 @@
 Add to cart functionality
--created carts models
-
--Need to handle post request when user adds to cart
-
--Render cart items on cart page
-
--Make all buttons on cart page function
 
 -Shipping will be chosen on the cart page by the user
+(create model for shipping options and then on frontend update js dynamically)
 
+Slider Cart
 
 Checkout
 
