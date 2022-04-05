@@ -109,6 +109,8 @@
                         <div class="grand-total-wrap">
                             <div class="grand-total-content">
                                 <h3>Subtotal <span id="sub_total">${{cart.calculate_cart_total}}</span></h3>
+                                <form id="cart_form" action="{% url 'checkout' %}" method="POST">
+                                
                                 <div class="grand-shipping">
                                     <span>Shipping</span>
                                     <ul>
@@ -129,8 +131,10 @@
 
                             </div>
                             <div class="grand-total-btn btn-hover">
-                                <a class="btn theme-color" href="checkout.html">Proceed to checkout</a>
+                                <a class="btn theme-color" href="javascript:{}" onclick="document.getElementById('cart_form').submit();">Proceed to checkout</a>
                             </div>
+                            {% csrf_token %}
+                            </form>
                         </div>
                     </div>
                 </div>

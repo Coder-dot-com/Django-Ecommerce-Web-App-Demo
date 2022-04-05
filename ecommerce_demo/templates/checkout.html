@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+
+
+
+
+
+<body>
+    <div class="main-wrapper main-wrapper-2">
+
+        <div class="breadcrumb-area bg-gray-4 breadcrumb-padding-1">
+            <div class="container">
+                <div class="breadcrumb-content text-center">
+                    <h2>Checkout </h2>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><i class="ti-angle-right"></i></li>
+                        <li>Checkout </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="breadcrumb-img-1">
+                <img src="{% static 'assets/images/banner/breadcrumb-1.png' %}" alt="">
+            </div>
+            <div class="breadcrumb-img-2">
+                <img src="{% static 'assets/images/banner/breadcrumb-2.png' %}" alt="">
+            </div>
+        </div>
+        <div class="checkout-main-area pb-100 pt-100">
+            <div class="container">
+
+                <div class="checkout-wrap pt-30">
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <div class="billing-info-wrap">
+                                <h3>Billing Details</h3>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="billing-info mb-20">
+                                            <label>First Name <abbr class="required" title="required">*</abbr></label>
+                                            <input type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="billing-info mb-20">
+                                            <label>Last Name <abbr class="required" title="required">*</abbr></label>
+                                            <input type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="billing-info mb-20">
+                                            <label>Company Name <abbr class="required" title="required">*</abbr></label>
+                                            <input type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="billing-select select-style mb-20">
+                                            <label>Country <abbr class="required" title="required">*</abbr></label>
+                                            <select class="select-two-active">
+                                                <option>Select a country</option>
+                                                <option>Azerbaijan</option>
+                                                <option>Bahamas</option>
+                                                <option>Bahrain</option>
+                                                <option>Bangladesh</option>
+                                                <option>Barbados</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="billing-info mb-20">
+                                            <label>Street Address <abbr class="required" title="required">*</abbr></label>
+                                            <input class="billing-address" placeholder="House number and street name" type="text">
+                                            <input placeholder="Apartment, suite, unit etc." type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="billing-info mb-20">
+                                            <label>Town / City <abbr class="required" title="required">*</abbr></label>
+                                            <input type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="billing-info mb-20">
+                                            <label>State / County <abbr class="required" title="required">*</abbr></label>
+                                            <input type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="billing-info mb-20">
+                                            <label>Postcode / ZIP <abbr class="required" title="required">*</abbr></label>
+                                            <input type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="billing-info mb-20">
+                                            <label>Phone <abbr class="required" title="required">*</abbr></label>
+                                            <input type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="billing-info mb-20">
+                                            <label>Email Address <abbr class="required" title="required">*</abbr></label>
+                                            <input type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="checkout-account mt-25">
+                                    <input class="checkout-toggle" type="checkbox">
+                                    <span>Ship to a different address?</span>
+                                </div>
+                                <div class="different-address open-toggle mt-30">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="billing-info mb-20">
+                                                <label>First Name</label>
+                                                <input type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="billing-info mb-20">
+                                                <label>Last Name</label>
+                                                <input type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="billing-info mb-20">
+                                                <label>Company Name</label>
+                                                <input type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="billing-select select-style mb-20">
+                                                <label>Country</label>
+                                                <select class="select-two-active">
+                                                    <option>Select a country</option>
+                                                    <option>Azerbaijan</option>
+                                                    <option>Bahamas</option>
+                                                    <option>Bahrain</option>
+                                                    <option>Bangladesh</option>
+                                                    <option>Barbados</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="billing-info mb-20">
+                                                <label>Street Address</label>
+                                                <input class="billing-address" placeholder="House number and street name" type="text">
+                                                <input placeholder="Apartment, suite, unit etc." type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="billing-info mb-20">
+                                                <label>Town / City</label>
+                                                <input type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="billing-info mb-20">
+                                                <label>State / County</label>
+                                                <input type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="billing-info mb-20">
+                                                <label>Postcode / ZIP</label>
+                                                <input type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="billing-info mb-20">
+                                                <label>Phone</label>
+                                                <input type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="billing-info mb-20">
+                                                <label>Email Address</label>
+                                                <input type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="your-order-area">
+                                <h3>Your order</h3>
+                                <div class="your-order-wrap gray-bg-4">
+                                    <div class="your-order-info-wrap">
+                                        <div class="your-order-info">
+                                            <ul>
+                                                <li>Product <span>Total</span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="your-order-middle">
+                                            <ul>
+                                                {% for item in cart_items %}
+                                                <li> {{item.product.product_name}} X {{item.quantity}} <span>${{item.sub_total}} </span></li>
+                                                {% endfor %}
+
+                                            </ul>
+                                        </div>
+                                        <div class="your-order-info order-subtotal">
+                                            <ul>
+                                                <li>Subtotal <span>${{cart.calculate_cart_total}} </span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="your-order-info order-shipping">
+                                            <ul>
+                                                <li>Shipping <p>${{cart.shipping_option.price}} </p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="your-order-info order-total">
+                                            <ul>
+                                                <li>Total <span>${{cart.calculate_cart_total_with_shipping}} </span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="Place-order btn-hover">
+                                    <a href="#">Continue to payment</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+{% endblock content %}

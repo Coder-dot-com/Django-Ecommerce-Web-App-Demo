@@ -3,13 +3,21 @@ from store.models import Product
 
 # Create your models here.
 
+class ShippingOption(models.Model):
+    option = models.CharField(max_length=200)
+    price = models.DecimalField(max_digits=7, decimal_places=2, null=True)
+
+    def __str__(self):
+        return self.option
+
+
 class Cart(models.Model):
     cart_id = models.CharField(max_length=250, blank=True, unique=True)
     time_created = models.DateTimeField(auto_now_add=True)
+    shipping_option = models.ForeignKey(ShippingOption, null=True, blank=True, on_delete=models.SET_NULL)
 
 
     def calculate_cart_total(self):
-        print("calculate cart_total function")
         total = 0
         try:
             cart_items = CartItem.objects.filter(cart=self)
@@ -18,6 +26,12 @@ class Cart(models.Model):
        
         except Exception as e:
             print(e)
+
+        return total
+
+    def calculate_cart_total_with_shipping(self):
+        total = self.calculate_cart_total()
+        total += self.shipping_option.price
 
         return total
 
@@ -48,9 +62,3 @@ class CartItem(models.Model):
 
 
 
-class ShippingOption(models.Model):
-    option = models.CharField(max_length=200)
-    price = models.DecimalField(max_digits=7, decimal_places=2, null=True)
-
-    def __str__(self):
-        return self.option
