@@ -35,7 +35,6 @@
 
                 <div class="checkout-wrap pt-30">
                     <form id="checkout_form" action="{% url 'payment' %}" method="POST">
-                        {% csrf_token %}
                     <div class="row">
                         <div class="col-lg-7">
 
@@ -45,22 +44,26 @@
                                     <div class="col-lg-6 col-md-6">
                                         <div class="billing-info mb-20">
                                             <label>First Name <abbr class="required" title="required">*</abbr></label>
-                                            <input name="billing_first_name" required type="text">
+                                            <input type="text">
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6">
                                         <div class="billing-info mb-20">
                                             <label>Last Name <abbr class="required" title="required">*</abbr></label>
-                                            <input name="billing_last_name" type="text" required>
+                                            <input type="text">
                                         </div>
                                     </div>
-
+                                    <div class="col-lg-12">
+                                        <div class="billing-info mb-20">
+                                            <label>Company Name <abbr class="required" title="required">*</abbr></label>
+                                            <input type="text">
+                                        </div>
+                                    </div>
                                     <div class="col-lg-12">
                                         <div class="billing-select select-style mb-20">
                                             <label>Country <abbr class="required" title="required">*</abbr></label>
-                                            <select name="billing_country" class="select-two-active" required>
-
-                                                <option disabled>Select a country</option>
+                                            <select class="select-two-active">
+                                                <option>Select a country</option>
                                                 <option>Azerbaijan</option>
                                                 <option>Bahamas</option>
                                                 <option>Bahrain</option>
@@ -72,44 +75,44 @@
                                     <div class="col-lg-12">
                                         <div class="billing-info mb-20">
                                             <label>Street Address <abbr class="required" title="required">*</abbr></label>
-                                            <input name="billing_address_line_1" class="billing-address" placeholder="House number and street name" type="text" required>
-                                            <input name="billing_address_line_2" placeholder="Apartment, suite, unit, etc. (optional)" type="text">
-                                          </div>
+                                            <input class="billing-address" placeholder="House number and street name" type="text">
+                                            <input placeholder="Apartment, suite, unit etc." type="text">
+                                        </div>
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="billing-info mb-20">
                                             <label>Town / City <abbr class="required" title="required">*</abbr></label>
-                                            <input name="billing_city" type="text" required>
+                                            <input type="text">
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-md-12">
                                         <div class="billing-info mb-20">
                                             <label>State / County <abbr class="required" title="required">*</abbr></label>
-                                            <input name="billing_state" type="text" required>
+                                            <input type="text">
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-md-12">
                                         <div class="billing-info mb-20">
                                             <label>Postcode / ZIP <abbr class="required" title="required">*</abbr></label>
-                                            <input name="billing_postcode" type="text" required>
+                                            <input type="text">
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-md-12">
                                         <div class="billing-info mb-20">
-                                            <label>Phone (optional)</label>
-                                            <input name="billing_phone" type="text">
+                                            <label>Phone <abbr class="required" title="required">*</abbr></label>
+                                            <input type="text">
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-md-12">
                                         <div class="billing-info mb-20">
                                             <label>Email Address <abbr class="required" title="required">*</abbr></label>
-                                            <input name="billing_email" type="email" required>
+                                            <input type="text">
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="checkout-account mt-25">
-                                    <input name="different_shipping_address" class="checkout-toggle" type="checkbox">
+                                    <input class="checkout-toggle" type="checkbox">
                                     <span>Ship to a different address?</span>
                                 </div>
                                 <div class="different-address open-toggle mt-30">
@@ -117,20 +120,25 @@
                                         <div class="col-lg-6 col-md-6">
                                             <div class="billing-info mb-20">
                                                 <label>First Name</label>
-                                                <input name="ship_first_name" type="text">
+                                                <input type="text">
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6">
                                             <div class="billing-info mb-20">
                                                 <label>Last Name</label>
-                                                <input name="ship_last_name" type="text">
+                                                <input type="text">
                                             </div>
                                         </div>
-
+                                        <div class="col-lg-12">
+                                            <div class="billing-info mb-20">
+                                                <label>Company Name</label>
+                                                <input type="text">
+                                            </div>
+                                        </div>
                                         <div class="col-lg-12">
                                             <div class="billing-select select-style mb-20">
                                                 <label>Country</label>
-                                                <select name="ship_country" class="select-two-active">
+                                                <select class="select-two-active">
                                                     <option>Select a country</option>
                                                     <option>Azerbaijan</option>
                                                     <option>Bahamas</option>
@@ -143,38 +151,38 @@
                                         <div class="col-lg-12">
                                             <div class="billing-info mb-20">
                                                 <label>Street Address</label>
-                                                <input name="ship_address_line_1" class="billing-address" placeholder="House number and street name" type="text">
-                                                <input name="ship_address_line_2" placeholder="Apartment, suite, unit, etc. (optional)" type="text">
-                                              </div>
+                                                <input class="billing-address" placeholder="House number and street name" type="text">
+                                                <input placeholder="Apartment, suite, unit etc." type="text">
+                                            </div>
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="billing-info mb-20">
                                                 <label>Town / City</label>
-                                                <input name="ship_city" type="text">
+                                                <input type="text">
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6">
                                             <div class="billing-info mb-20">
                                                 <label>State / County</label>
-                                                <input name="ship_state" type="text">
+                                                <input type="text">
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6">
                                             <div class="billing-info mb-20">
                                                 <label>Postcode / ZIP</label>
-                                                <input name="ship_postcode" type="text">
+                                                <input type="text">
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6">
                                             <div class="billing-info mb-20">
                                                 <label>Phone</label>
-                                                <input name="ship_phone" type="text">
+                                                <input type="text">
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6">
                                             <div class="billing-info mb-20">
                                                 <label>Email Address</label>
-                                                <input name="ship_email" type="email">
+                                                <input type="text">
                                             </div>
                                         </div>
                                     </div>
@@ -220,7 +228,7 @@
 
                                 </div>
                                 <div class="Place-order btn-hover">
-                                    <a href="javascript:{}" onclick="document.getElementById('checkout_form').submit();">Continue to payment</a>
+                                    <a href="javascript:{}" onclick="document.getElementById('checkout').submit();">Pay now</a>
                                 </div>
 
                             </div>
