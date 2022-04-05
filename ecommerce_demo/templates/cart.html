@@ -108,19 +108,25 @@
                     <div class="col-lg-4 col-md-12 col-12" style="margin-left:auto;">
                         <div class="grand-total-wrap">
                             <div class="grand-total-content">
-                                <h3>Subtotal <span>${{cart.calculate_cart_total}}</span></h3>
+                                <h3>Subtotal <span id="sub_total">${{cart.calculate_cart_total}}</span></h3>
                                 <div class="grand-shipping">
                                     <span>Shipping</span>
                                     <ul>
-                                        <li><input type="radio" name="shipping" value="info" checked="checked"><label>Free shipping</label></li>
-                                        <li><input type="radio" name="shipping" value="info" checked="checked"><label>Flat rate: <span>$100.00</span></label></li>
-                                        <li><input type="radio" name="shipping" value="info" checked="checked"><label>Local pickup: <span>$120.00</span></label></li>
+                                        {% for option in shipping_options %}
+                                        <li><input class="shipping_method" type="radio" name="shipping" value="{{option.option}}_{{option.price}}" checked="checked"><label>{{option.option}}: <span class="shipping_option_price">${{option.price}}</span></label></li>
+                                        {% endfor %}
                                     </ul>
                                 </div>
 
+                                
+
                                 <div class="grand-total">
-                                    <h4>Total <span>$185.00</span></h4>
+                                    <h4>Total <span id="grand_total">${{cart.calculate_cart_total}}</span></h4>
                                 </div>
+
+
+
+
                             </div>
                             <div class="grand-total-btn btn-hover">
                                 <a class="btn theme-color" href="checkout.html">Proceed to checkout</a>
@@ -132,5 +138,38 @@
 
             </div>
         </div>
+
+
+
+        <script>   
+
+            let total_display = document.querySelector("#grand_total");
+            let ship_select = document.getElementsByClassName("shipping_method");
+            let sub_total = parseFloat({{cart.calculate_cart_total}})
+        
+            {% comment %} This function adds shipping price to calculate new total {% endcomment %}
+              
+            function update_price() {
+              for (let i of ship_select) {
+                if (i.checked) {
+                  ship_price = parseFloat(i.value.split("_")[1])
+
+                  total_value = parseFloat(sub_total) + parseFloat(ship_price)
+                  total_display.textContent = "$" + total_value.toFixed(2)
+                }
+              }
+        
+            }   
+        
+            window.onload = update_price
+            for (let i of ship_select) {
+              i.addEventListener('change', update_price)
+        
+            }
+        
+            ship_select[0].checked = true
+        
+    </script>
+        
 {% endblock content %}
  

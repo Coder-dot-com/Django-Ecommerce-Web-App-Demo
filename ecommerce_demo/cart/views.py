@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from cart.models import Cart, CartItem
+from cart.models import Cart, CartItem, ShippingOption
 
 from store.models import Product
 
@@ -20,12 +20,15 @@ def cart_page(request):
         return redirect('shop')
 
     cart_items = CartItem.objects.filter(cart=cart)
+
+    shipping_options = ShippingOption.objects.all()
     
     
     
     context = {
         'cart': cart,
         'cart_items': cart_items,
+        'shipping_options': shipping_options,
     }
 
     return render(request, 'cart.html', context=context)

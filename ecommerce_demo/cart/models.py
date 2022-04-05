@@ -48,3 +48,9 @@ class CartItem(models.Model):
 
 
 
+class ShippingOption(models.Model):
+    option = models.CharField(max_length=200)
+    price = models.DecimalField(max_digits=7, decimal_places=2, null=True)
+
+    def __str__(self):
+        return self.option
