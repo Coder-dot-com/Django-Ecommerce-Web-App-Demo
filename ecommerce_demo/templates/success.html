@@ -15,7 +15,7 @@
         <div class="breadcrumb-area bg-gray-4 breadcrumb-padding-1">
             <div class="container">
                 <div class="breadcrumb-content text-center">
-                    <h2>Checkout </h2>
+                    <h2>Order Confirmed </h2>
                     <ul>
                         <li><a href="index.html">Home</a></li>
                         <li><i class="ti-angle-right"></i></li>
@@ -34,6 +34,7 @@
             <div class="container">
 
                 <div class="checkout-wrap pt-30">
+                    <form id="checkout_form" action="{% url 'payment' %}" method="POST">
                     <div class="row">
                         <div class="col-lg-7">
 
@@ -135,100 +136,38 @@
                                         </div>
                                         <div class="your-order-middle">
                                             <ul>
-                                                {% for item in cart_items %}
+                                                {% for item in order_items %}
                                                 <li> {{item.product.product_name}} X {{item.quantity}} <span>${{item.sub_total}} </span></li>
                                                 {% endfor %}
 
                                             </ul>
                                         </div>
-                                        <div class="your-order-info order-subtotal">
-                                            <ul>
-                                                <li>Subtotal <span>${{cart.calculate_cart_total}} </span></li>
-                                            </ul>
-                                        </div>
+
                                         <div class="your-order-info order-shipping">
                                             <ul>
-                                                <li>Shipping <p>${{cart.shipping_price}} </p>
+                                                <li>Shipping <p>${{order.shipping_price}} </p>
                                                 </li>
                                             </ul>
                                         </div>
                                         <div class="your-order-info order-total">
                                             <ul>
-                                                <li>Total <span>${{cart.calculate_cart_total_with_shipping}} </span></li>
+                                                <li>Total <span>${{order.order_total}} </span></li>
                                             </ul>
                                         </div>
                                     </div>
 
                                 </div>
-
-                                <form id="payment-form">
-                                    <div id="payment-element">
-                                      <!-- Elements will create form elements here -->
-                                    </div>
-                                    <br>
-                                    <div class="Place-order btn-hover" style="margin-top:10px;">
-                                        <button id="click_pay" style="display:none;"></button>
-                                        <a href="javascript:{}" onclick="document.getElementById('click_pay').click();">Pay Now</a>
-                                    </div>
-                                    <div id="error-message">
-                                      <!-- Display error message to your customers here -->
-                                    </div>
-                                  </form>
+                                <div class="Place-order btn-hover">
+                                    <a href="{% url 'shop' %}">Continue Shopping</a>
+                                </div>
 
                             </div>
                         </div>
                     </div>
+                </form>
                 </div>
             </div>
         </div>
-
-
-
-
-<script>
-    const stripe = Stripe('{{stripe_pub_key}}');
-    
-    const options = {
-      clientSecret: '{{client_secret}}',
-      // Fully customizable with appearance API.
-      appearance: {/*...*/},
-    };
-    
-    // Set up Stripe.js and Elements to use in checkout form, passing the client secret obtained in step 2
-    const elements = stripe.elements(options);
-    
-    // Create and mount the Payment Element
-    const paymentElement = elements.create('payment');
-    paymentElement.mount('#payment-element');
-    
-    
-    const form = document.getElementById('payment-form');
-    
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-    
-      const {error} = await stripe.confirmPayment({
-        //`Elements` instance that was used to create the Payment Element
-        elements,
-        confirmParams: {
-          return_url: '{{return_url}}',
-        },
-      });
-    
-      if (error) {
-        // This point will only be reached if there is an immediate error when
-        // confirming the payment. Show error to your customer (e.g., payment
-        // details incomplete)
-        const messageContainer = document.querySelector('#error-message');
-        messageContainer.textContent = error.message;
-      } else {
-        // Your customer will be redirected to your `return_url`. For some payment
-        // methods like iDEAL, your customer will be redirected to an intermediate
-        // site first to authorize the payment, then redirected to the `return_url`.
-      }
-    });
-    
-</script>
 
 
 {% endblock content %}

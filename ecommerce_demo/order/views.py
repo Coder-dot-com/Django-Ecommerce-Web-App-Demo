@@ -1,10 +1,21 @@
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 
 from cart.models import Cart, CartItem, ShippingOption
 from cart.views import _cart_id
+from ecommerce_demo.settings import STRIPE_PUBLIC_KEY, STRIPE_SECRET_KEY, STRIPE_ENDPOINT_SECRET
 from order.forms import OrderForm
-from order.models import Order
+from order.models import Order, OrderProduct, Payment
 import datetime
+import stripe
+
+from django.views.decorators.csrf import csrf_exempt
+
+
+#Initialize stripe
+stripe.api_key = STRIPE_SECRET_KEY
+
 
 # Create your views here.
 
@@ -115,12 +126,171 @@ def payment(request):
     except Exception as e:
         print(e)
         return redirect('checkout')
+
+
+    # Creating Stripe payment intent
+    grand_total = order.order_total
+
+    intent = stripe.PaymentIntent.create(
+        amount = int(grand_total*100),
+        currency = "USD",
+        payment_method_types = [
+            "card",
+            ],
+        )
     
+    payment_intent_id = intent.id
+    order.payment_intent_id = payment_intent_id
+    order.save()
+    
+    return_url = request.build_absolute_uri(reverse('success',kwargs={"order_num":order.order_number}))
+
 
     context = {
-        'cart': cart,
-        'cart_items': cart_items,
         'order': order,
+        'cart_items': cart_items,
+        'total': grand_total,
+        'grand_total': grand_total,
+        'payment_method': data.payment_method,
+        'client_secret': intent.client_secret,
+        'stripe_pub_key': STRIPE_PUBLIC_KEY,
+        'return_url': return_url,
+        
     }
 
+
+
+
+    
+
+
+
+
+
     return render(request, 'payment.html', context=context)
+
+
+def _post_payment_success(request, payment_intent):
+    print("CREATING ORDER ITEMS")
+    payment_intent = str(payment_intent)
+
+    order = Order.objects.get(payment_intent_id=payment_intent)
+    order_items = OrderProduct.objects.filter(order=order)
+
+
+    if not order_items:
+
+        try:
+            cart = Cart.objects.get(cart_id=_cart_id(request))
+
+            cart_items = CartItem.objects.filter(cart=cart)
+
+
+            # loop through cart items and move to order item
+            order.is_ordered = True
+            order.save()
+            print(f"cart items are {cart_items}")
+
+            for item in cart_items:
+                print(item)
+                orderproduct = OrderProduct.objects.create(
+                    order = order,
+                    cart_id = cart,
+                    product = item.product,        
+                    quantity = item.quantity,
+                    price = item.price,
+                    sub_total = item.sub_total,
+                    )
+                        
+                # add counter for each product(num sold, and increment)
+                item.product.num_sold += item.quantity
+                item.product.stock -= item.quantity
+                item.product.save()
+
+            # Clear cart
+            cart_items = CartItem.objects.filter(cart=cart).delete()
+            cart.shipping_option = None
+            cart.save()
+
+
+                #Get the new order items
+            order_items = OrderProduct.objects.filter(order=order)
+
+
+
+        except Exception as e:
+            print("Exception creating order product")
+            print(e)
+            pass
+
+ 
+
+    #Repeat this for webhook incase user browser closes during payment
+
+    context = {
+        'order': order,
+        'order_items': order_items,
+    }
+
+    return context
+
+
+
+
+
+def success(request):
+    payment_intent = request.GET['payment_intent']
+
+    context = _post_payment_success(request, payment_intent=payment_intent)       
+    
+    return render(request, 'success.html', context=context)
+
+
+
+
+
+#Verify payment succeeded and create payment object
+@csrf_exempt
+def stripe_webhook(request):
+    stripe.api_key = STRIPE_SECRET_KEY
+    endpoint_secret = STRIPE_ENDPOINT_SECRET
+    payload = request.body
+    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+    event = None
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, endpoint_secret
+        )
+    except ValueError as e:
+        # Invalid payload
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError as e:
+        # Invalid signature
+        return HttpResponse(status=400)
+
+    # Handle the checkout.session.completed event '# Move the logic that the redirect url view is dependant on
+    # to success view to ensure it's performed in correct order so that page renders properly
+    if event['type'] == 'charge.succeeded':
+        print("Payment was successful.")
+        payment_intent_id = (event['data']['object']['payment_intent'])
+        order = Order.objects.get(payment_intent_id=payment_intent_id)
+        cart = order.cart_id
+        payment = Payment(
+            cart_id = cart,
+            order = order,
+            payment_intent_id = payment_intent_id,
+            payment_method = "Stripe",
+            amount_paid = (event['data']['object']['amount']/100),
+            status = event['type'],
+            response = event,
+
+        )
+        payment.save()
+        order.is_ordered = True
+        order.save()
+
+        _post_payment_success(request, payment_intent=payment_intent_id)
+
+
+    return HttpResponse(status=200)

@@ -129,27 +129,15 @@
                         <a href="#">SHOP</a>
                         <ul>
                             <li>
-                                <a href="#">Shop Layout</a>
+                                <a href="#">Shop by category</a>
                                 <ul>
-                                    <li><a href="shop.html">Standard Style</a></li>
-                                    <li><a href="shop-sidebar.html">Shop Grid Sidebar</a></li>
-                                    <li><a href="shop-list.html">Shop List Style</a></li>
-                                    <li><a href="shop-list-sidebar.html">Shop List Sidebar</a></li>
-                                    <li><a href="shop-right-sidebar.html">Shop Right Sidebar</a></li>
-                                    <li><a href="shop-location.html">Store Location</a></li>
+
+                                    {% for category in links %}
+                                    <li><a href="{% url 'shop_category' category.slug %}">{{category.category_name}}</a></li>
+                                  {% endfor %}
                                 </ul>
                             </li>
-                            <li>
-                                <a href="#">Product Layout</a>
-                                <ul>
-                                    <li><a href="product-details.html">Tab Style 1</a></li>
-                                    <li><a href="product-details-2.html">Tab Style 2</a></li>
-                                    <li><a href="product-details-gallery.html">Gallery style </a></li>
-                                    <li><a href="product-details-affiliate.html">Affiliate style</a></li>
-                                    <li><a href="product-details-group.html">Group Style</a></li>
-                                    <li><a href="product-details-fixed-img.html">Fixed Image Style </a></li>
-                                </ul>
-                            </li>
+
                         </ul>
                     </li>
 

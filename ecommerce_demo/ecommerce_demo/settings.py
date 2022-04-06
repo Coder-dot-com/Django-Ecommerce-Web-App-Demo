@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-
+from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,6 +26,11 @@ SECRET_KEY = 'django-insecure-!+$qvdkym(s9$kv6(w)pyxdme2owi7j0-ne-!4uzc-yi3y=67a
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+STRIPE_PUBLIC_KEY = config('TEST_STRIPE_PUBLIC_KEY')
+STRIPE_SECRET_KEY = config('TEST_STRIPE_SECRET_KEY')
+STRIPE_ENDPOINT_SECRET = config('TEST_STRIPE_ENDPOINT_SECRET')
+
 
 
 # Application definition
@@ -69,6 +74,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'cart.context_processors.slider_cart',
+                'category.context_processors.category_links',
 
             ],
         },

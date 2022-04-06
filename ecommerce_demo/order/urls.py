@@ -20,7 +20,9 @@ from . import views
 
 urlpatterns = [
     path('checkout/', views.checkout, name="checkout"),
-    path('payment/', views.payment, name="payment")
+    path('payment/', views.payment, name="payment"),
+    path('success/', views.success, name='success'),
+    path('webhook/', views.stripe_webhook, name="stripe_webhook"),
 
 ]
 

@@ -1,9 +1,6 @@
 
-Payments page
--order model
--stripe
 
-Order confirmed
+
 
 Order Email
 -use celery

@@ -48,9 +48,6 @@ class Order(models.Model):
     ship_postcode = models.CharField(max_length=50, blank=True)
     payment_intent_id = models.CharField(max_length=300)    
 
-    def billing_full_name(self):
-        return f"{self.billing_first_name} {self.billing_last_name}"
-
 
     def __str__(self):
         return self.order_number
@@ -63,14 +60,25 @@ class OrderProduct(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     price = models.DecimalField(max_digits=7, decimal_places=2)
+    sub_total = models.DecimalField(max_digits=7, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def sub_total(self):
-        return self.price * self.quantity
 
 
     def __str__(self):
         return self.product.product_name
 
 
+class Payment(models.Model):
+    cart_id = models.ForeignKey(Cart, on_delete=models.SET_NULL, null=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
+    payment_intent_id = models.CharField(max_length=300)    
+    payment_method = models.CharField(max_length=300)
+    amount_paid = models.CharField(max_length=300)
+    status = models.CharField(max_length=300)
+    created_at = models.DateTimeField(auto_now_add=True)
+    response = models.CharField(max_length=5000, blank=True)
+
+    def __str__(self):
+        return self.payment_intent_id
