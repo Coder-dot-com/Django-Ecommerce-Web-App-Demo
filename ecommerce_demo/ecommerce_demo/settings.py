@@ -19,22 +19,92 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!+$qvdkym(s9$kv6(w)pyxdme2owi7j0-ne-!4uzc-yi3y=67a'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0'] 
+#if false add allowed hosts here
+ALLOWED_HOSTS.extend(
+    filter(
+        None,
+        config('ALLOWED_HOSTS', '').split(','),
+    )
+)
 
-ALLOWED_HOSTS = []
+if str(BASE_DIR) == "/APP/ecommerce_demo":
+    DEBUG = config('DEBUG', default=False, cast=bool)
 
-STRIPE_PUBLIC_KEY = config('TEST_STRIPE_PUBLIC_KEY')
-STRIPE_SECRET_KEY = config('TEST_STRIPE_SECRET_KEY')
-STRIPE_ENDPOINT_SECRET = config('TEST_STRIPE_ENDPOINT_SECRET')
+    # #HTTPS settings
+
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+    CSRF_COOKIE_SECURE = True
+
+    SESSION_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 3600 # increase to 1 year eventually
+    SECURE_SSL_REDIRECT = True #re enable in product
+
+    #With docker
+    CELERY_BROKER_URL = 'redis://redis:6379'
+    CELERY_RESULT_BACKEND = 'redis://redis:6379'
 
 
-CELERY_BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 
+
+    STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
+    STRIPE_PUBLIC_KEY = config('STRIPE_PUBLIC_KEY')
+    STRIPE_ENDPOINT_SECRET = config('STRIPE_ENDPOINT_SECRET')
+
+
+    SITE_ID = int(config('PRODUCTION_SITE_ID'))
+    CURRENT_ENVIRONMENT = "production"
+
+
+    DATABASES = {
+    "default": {
+        "ENGINE": config("SQL_ENGINE", "django.db.backends.sqlite3"),
+        "NAME": config("SQL_DATABASE", BASE_DIR / "db.sqlite3"),
+        "USER": config("SQL_USER", "user"),
+        "PASSWORD": config("SQL_PASSWORD", "password"),
+        "HOST": config("SQL_HOST", "localhost"),
+        "PORT": config("SQL_PORT", "5432"),
+    }
+}
+
+
+            
+else:
+    DEBUG = True       
+
+    # Local
+    CELERY_BROKER_URL = 'redis://localhost:6379'
+    CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+
+
+
+    STRIPE_SECRET_KEY = config('TEST_STRIPE_SECRET_KEY')
+    STRIPE_PUBLIC_KEY = config('TEST_STRIPE_PUBLIC_KEY')
+    STRIPE_ENDPOINT_SECRET = config('TEST_STRIPE_ENDPOINT_SECRET')
+    
+
+
+    SITE_ID = int(config('LOCAL_SITE_ID'))
+    CURRENT_ENVIRONMENT = "local"
+    
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+
+
+
+
+
+#Request size limits (total) 
+DATA_UPLOAD_MAX_MEMORY_SIZE = 200000
 
 
 # Application definition
@@ -92,12 +162,7 @@ WSGI_APPLICATION = 'ecommerce_demo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+
 
 
 
@@ -131,12 +196,27 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.0/howto/static-files/
+# https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR /'static'
+#S3 config
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY') 
+AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME') 
+
+AWS_QUERYSTRING_AUTH = False #For now
+
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+# s3 static settings
+AWS_DEFAULT_ACL = 'public-read'
+AWS_LOCATION = ''
+STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
+
+
+# STATIC_ROOT = BASE_DIR /'static'
 
 STATICFILES_DIRS = [
     'ecommerce_demo/static',
