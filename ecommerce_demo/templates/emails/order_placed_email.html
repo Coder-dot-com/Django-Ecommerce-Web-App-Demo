@@ -1,0 +1,12 @@
+Thank you for your order
+
+Your Order: 
+{% for item in order_items %}
+
+{{item.product.product_name}} ${{item.price}}ea- x{{item.quantity}} - Subtotal: ${{item.sub_total}} |
+
+{% endfor %} 
+
+Shipping: {{order.shipping_method}} - ${{order.shipping_price}}
+
+Total: {{order.order_total}}

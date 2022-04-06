@@ -46,8 +46,10 @@ class Order(models.Model):
     ship_state = models.CharField(max_length=50, blank=True)
     ship_city = models.CharField(max_length=50, blank=True)
     ship_postcode = models.CharField(max_length=50, blank=True)
-    payment_intent_id = models.CharField(max_length=300)    
+    payment_intent_id = models.CharField(max_length=300)   
 
+
+    order_conf_email_sent = models.BooleanField(default=False)
 
     def __str__(self):
         return self.order_number

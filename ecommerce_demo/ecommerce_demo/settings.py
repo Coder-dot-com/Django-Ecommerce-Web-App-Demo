@@ -32,6 +32,10 @@ STRIPE_SECRET_KEY = config('TEST_STRIPE_SECRET_KEY')
 STRIPE_ENDPOINT_SECRET = config('TEST_STRIPE_ENDPOINT_SECRET')
 
 
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+
+
 
 # Application definition
 
@@ -47,6 +51,7 @@ INSTALLED_APPS = [
     'store',
     'cart',
     'order',
+    'emails',
 
 ]
 
@@ -145,3 +150,12 @@ MEDIA_ROOT = BASE_DIR /'media'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Email SMTP
+
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_HOST_USER = config('CURRENT_SITE_EMAIL')
+EMAIL_HOST_PASSWORD = config('EMAIL_SMTP_PASS') 
+EMAIL_USE_TLS = True

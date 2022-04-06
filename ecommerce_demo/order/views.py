@@ -4,6 +4,7 @@ from django.urls import reverse
 
 from cart.models import Cart, CartItem, ShippingOption
 from cart.views import _cart_id
+from ecommerce_demo.emails.tasks import order_placed_email
 from ecommerce_demo.settings import STRIPE_PUBLIC_KEY, STRIPE_SECRET_KEY, STRIPE_ENDPOINT_SECRET
 from order.forms import OrderForm
 from order.models import Order, OrderProduct, Payment
@@ -143,7 +144,7 @@ def payment(request):
     order.payment_intent_id = payment_intent_id
     order.save()
     
-    return_url = request.build_absolute_uri(reverse('success',kwargs={"order_num":order.order_number}))
+    return_url = request.build_absolute_uri(reverse('success',kwargs={}))
 
 
     context = {
@@ -226,6 +227,13 @@ def _post_payment_success(request, payment_intent):
  
 
     #Repeat this for webhook incase user browser closes during payment
+
+    
+    try:
+        order_placed_email.delay(order.order_number) 
+        print("email scheduled")
+    except Exception as e:
+        print(e)
 
     context = {
         'order': order,
