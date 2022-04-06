@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+        <div class="breadcrumb-area bg-gray-4 breadcrumb-padding-1">
+            <div class="container">
+                <div class="breadcrumb-content text-center">
+                    <h2>Cart</h2>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><i class="ti-angle-right"></i></li>
+                        <li>Cart</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="breadcrumb-img-1">
+                <img src="assets/images/banner/breadcrumb-1.png" alt="">
+            </div>
+            <div class="breadcrumb-img-2">
+                <img src="assets/images/banner/breadcrumb-2.png" alt="">
+            </div>
+        </div>
+        <div class="cart-area pt-100 pb-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <form action="#">
+                            <div class="cart-table-content">
+                                <div class="table-content table-responsive">
+
+                                    {% if cart_items %}
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th class="width-thumbnail"></th>
+                                                <th class="width-name">Product</th>
+                                                <th class="width-price"> Price</th>
+                                                <th class="width-quantity">Quantity</th>
+                                                <th class="width-subtotal">Subtotal</th>
+                                                <th class="width-remove"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                            
+                                            {% for item in cart_items %}
+                                            <tr>
+                                                <td class="product-thumbnail">
+                                                    <a href="{{item.product.get_url}}"><img src="{{item.product.main_image.url}}" alt=""></a>
+                                                </td>
+                                                <td class="product-name">
+                                                    <h5><a href="{{item.product.get_url}}">{{item.product.product_name}}</a></h5>
+                                                </td>
+                                                <td class="product-cart-price"><span class="amount">${{item.price}}</span></td>
+                                                <td class="cart-quality">
+                                                    <div class="product-quality">
+                                                        <a href="{% url 'decrease_cart_item' item.id %}">
+                                                            <div class="dec qtybutton">-</div>
+                                                        </a>
+                                                        <input class="cart-plus-minus-box input-text qty text" readonly name="qtybutton" value="{{item.quantity}}">
+                                                        <a href="{% url 'increase_cart_item' item.id %}">
+                                                            <div class="inc qtybutton">+</div>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                                <td class="product-total"><span>${{item.sub_total}}</span></td>
+                                                <td class="product-remove"><a href="{% url 'remove_cart_item' item.id %}"><i class=" ti-trash "></i></a></td>
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% else %}
+
+                                            <h3>Your cart is currently empty</h3>
+
+                                            {% endif %}
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="cart-shiping-update-wrapper">
+                                        <div class="cart-shiping-update btn-hover">
+                                            <a href="{% url 'shop' %}">Continue Shopping</a>
+                                        </div>
+                                        <div class="cart-clear-wrap">
+                                            <div class="cart-clear btn-hover">
+                                                <a href="{% url 'cart' %}">Update Cart</a>
+                                            </div>
+                                            <div class="cart-clear btn-hover">
+                                                <a href="{% url 'clear_cart' %}">Clear Cart</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                {% if cart_items %}
+                <div class="row">
+
+
+                    <div class="col-lg-4 col-md-12 col-12" style="margin-left:auto;">
+                        <div class="grand-total-wrap">
+                            <div class="grand-total-content">
+                                <h3>Subtotal <span id="sub_total">${{cart.calculate_cart_total}}</span></h3>
+                                <form id="cart_form" action="{% url 'checkout' %}" method="POST">
+                                
+                                <div class="grand-shipping">
+                                    <span>Shipping</span>
+                                    <ul>
+                                        {% for option in shipping_options %}
+                                        <li><input class="shipping_method" type="radio" name="shipping" value="{{option.option}}_{{option.price}}" checked="checked"><label>{{option.option}}: <span class="shipping_option_price">${{option.price}}</span></label></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+
+                                
+
+                                <div class="grand-total">
+                                    <h4>Total <span id="grand_total">${{cart.calculate_cart_total}}</span></h4>
+                                </div>
+
+
+
+
+                            </div>
+                            <div class="grand-total-btn btn-hover">
+                                <a class="btn theme-color" href="javascript:{}" onclick="document.getElementById('cart_form').submit();">Proceed to checkout</a>
+                            </div>
+                            {% csrf_token %}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+
+
+
+        <script>   
+
+            let total_display = document.querySelector("#grand_total");
+            let ship_select = document.getElementsByClassName("shipping_method");
+            let sub_total = parseFloat({{cart.calculate_cart_total}})
+        
+            {% comment %} This function adds shipping price to calculate new total {% endcomment %}
+              
+            function update_price() {
+              for (let i of ship_select) {
+                if (i.checked) {
+                  ship_price = parseFloat(i.value.split("_")[1])
+
+                  total_value = parseFloat(sub_total) + parseFloat(ship_price)
+                  total_display.textContent = "$" + total_value.toFixed(2)
+                }
+              }
+        
+            }   
+        
+            window.onload = update_price
+            for (let i of ship_select) {
+              i.addEventListener('change', update_price)
+        
+            }
+        
+            ship_select[0].checked = true
+        
+    </script>
+        
+{% endblock content %}
+ 

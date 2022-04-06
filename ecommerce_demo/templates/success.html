@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+
+
+
+
+
+<body>
+    <div class="main-wrapper main-wrapper-2">
+
+        <div class="breadcrumb-area bg-gray-4 breadcrumb-padding-1">
+            <div class="container">
+                <div class="breadcrumb-content text-center">
+                    <h2>Order Confirmed </h2>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><i class="ti-angle-right"></i></li>
+                        <li>Checkout </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="breadcrumb-img-1">
+                <img src="{% static 'assets/images/banner/breadcrumb-1.png' %}" alt="">
+            </div>
+            <div class="breadcrumb-img-2">
+                <img src="{% static 'assets/images/banner/breadcrumb-2.png' %}" alt="">
+            </div>
+        </div>
+        <div class="checkout-main-area pb-100 pt-100">
+            <div class="container">
+
+                <div class="checkout-wrap pt-30">
+                    <form id="checkout_form" action="{% url 'payment' %}" method="POST">
+                    <div class="row">
+                        <div class="col-lg-7">
+
+                            <div class="billing-info-wrap">
+                                <h3>Billing & Shipping</h3>
+
+                                <div class="row">
+                                    <div class="col-lg-7">
+                                        <p>
+                                            <label>Billing details:</label>
+                                            <br>
+                                            <br>
+
+                                            {{order.billing_first_name}} {{order.billing_last_name}}
+                                            <br> 
+                                            {{order.billing_address_line_1}}
+                                            <br>
+                                            {% if order.billing_address_line_2 %}
+                                            {{order.billing_address_line_2}}
+                                            <br>
+                                            {% endif %}
+                                            {{order.billing_city}}
+                                            <br>
+                                            {{order.billing_country}}
+                                            <br>
+                                            {{order.billing_email}}
+                                            <br>
+                                            {% if order.billing_phone %}
+                                            {{order.billing_phone}}
+                                            <br>
+                                            {% endif %}
+                                            <br>
+                                            
+                                            <label>Shipping details:</label>
+                                            <p>
+                                            {% if order.ship_diff_to_bill %}
+                                            {{order.ship_first_name}} {{order.ship_last_name}}
+                                            <br> 
+                                            {{order.ship_address_line_1}}
+                                            <br>
+                                            {% if order.ship_address_line_2 %}
+                                            {{order.ship_address_line_2}}
+                                            <br>
+                                            {% endif %}
+                                            {{order.ship_city}}
+                                            <br>
+                                            {{order.ship_country}}
+                                            <br>
+                                            {{order.ship_email}}
+                                            <br>
+                                            {% if order.ship_phone %}
+                                            {{order.ship_phone}}
+                                            <br>
+                                            {% endif %}
+                        
+                                            {% else %}
+                                            {{order.billing_first_name}} {{order.billing_last_name}}
+                                            <br> 
+                                            {{order.billing_address_line_1}}
+                                            <br>
+                                            {% if order.billing_address_line_2 %}
+                                            {{order.billing_address_line_2}}
+                                            <br>
+                                            {% endif %}
+                                            {{order.billing_city}}
+                                            <br>
+                                            {{order.billing_country}}
+                                            <br>
+                                            {{order.billing_email}}
+                                            <br>
+                                            {% if order.billing_phone %}
+                                            {{order.billing_phone}}
+                                            <br>
+                                            {% endif %}
+                                            {% endif %}
+
+
+                                  
+
+                                    
+                                    </div>
+                                </div>
+                               
+
+                            
+
+
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="your-order-area">
+                                <h3>Your order</h3>
+                                <div class="your-order-wrap gray-bg-4">
+                                    <div class="your-order-info-wrap">
+                                        <div class="your-order-info">
+                                            <ul>
+                                                <li>Product <span>Total</span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="your-order-middle">
+                                            <ul>
+                                                {% for item in order_items %}
+                                                <li> {{item.product.product_name}} X {{item.quantity}} <span>${{item.sub_total}} </span></li>
+                                                {% endfor %}
+
+                                            </ul>
+                                        </div>
+
+                                        <div class="your-order-info order-shipping">
+                                            <ul>
+                                                <li>Shipping <p>${{order.shipping_price}} </p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="your-order-info order-total">
+                                            <ul>
+                                                <li>Total <span>${{order.order_total}} </span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="Place-order btn-hover">
+                                    <a href="{% url 'shop' %}">Continue Shopping</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+
+
+{% endblock content %}

@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+        <div class="slider-area">
+            <div class="slider-active swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="intro-section slider-height-1 slider-content-center bg-img single-animation-wrap slider-bg-color-1" style="background-image:url({% static 'assets/images/slider/slider-bg-1.jpg' %})">
+                            <div class="container">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="slider-content-1 slider-animated-1">
+                                            <h3 class="animated">new arrival</h3>
+                                            <h1 class="animated">Summer <br>Collection</h1>
+                                            <div class="slider-btn btn-hover">
+                                                <a href="product-details.html" class="btn animated">
+                                                    Shop Now <i class=" ti-arrow-right "></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="intro-section slider-height-1 slider-content-center bg-img single-animation-wrap slider-bg-color-1" style="background-image:url({% static 'assets/images/slider/slider-bg-1.jpg' %})">
+                            <div class="container">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="slider-content-1 slider-animated-1">
+                                            <h3 class="animated">new arrival</h3>
+                                            <h1 class="animated">Summer <br>Collection</h1>
+                                            <div class="slider-btn btn-hover">
+                                                <a href="product-details.html" class="btn animated">
+                                                    Shop Now <i class=" ti-arrow-right "></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="home-slider-prev main-slider-nav"><i class="fa fa-angle-left"></i></div>
+                    <div class="home-slider-next main-slider-nav"><i class="fa fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="service-area pb-70">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-30">
+                        <div class="service-wrap" data-aos="fade-up" data-aos-delay="200">
+                            <div class="service-img">
+                                <img src="{% static 'assets/images/icon-img/car.png' %}" alt="">
+                            </div>
+                            <div class="service-content">
+                                <h3>Free Shipping</h3>
+                                <p>Free shipping on all order</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-30">
+                        <div class="service-wrap" data-aos="fade-up" data-aos-delay="400">
+                            <div class="service-img">
+                                <img src="{% static 'assets/images/icon-img/time.png' %}" alt="">
+                            </div>
+                            <div class="service-content">
+                                <h3>Support 24/7</h3>
+                                <p>Support 24 hours a day</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-30">
+                        <div class="service-wrap" data-aos="fade-up" data-aos-delay="600">
+                            <div class="service-img">
+                                <img src="{% static 'assets/images/icon-img/dollar.png' %}" alt="">
+                            </div>
+                            <div class="service-content">
+                                <h3>Money Return</h3>
+                                <p>Back Guarantee Under </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-30">
+                        <div class="service-wrap" data-aos="fade-up" data-aos-delay="800">
+                            <div class="service-img">
+                                <img src="{% static 'assets/images/icon-img/discount.png' %}" alt="">
+                            </div>
+                            <div class="service-content">
+                                <h3>Order Discount</h3>
+                                <p>Onevery order over $150</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-area pb-60">
+            <div class="container">
+                <div class="section-title-tab-wrap mb-75">
+                    <div class="section-title-2" data-aos="fade-up" data-aos-delay="200">
+                        <h2>Our Products</h2>
+                    </div>
+                    <div class="tab-style-1 nav" data-aos="fade-up" data-aos-delay="400">
+
+                        {% for category in categories %}
+                        <a class="{% if forloop.counter == 1 %}active{% endif %}" href="{{category}}" data-bs-toggle="tab"> {{category}} </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="tab-content jump">
+                    {% for category in categories %}
+                    <div id="{{category}}" class="tab-pane {% if forloop.counter == 1 %}active{% endif %}">
+                        <div class="row">
+                            {% for product in products %}
+                            {% if product.category == category and forloop.counter < 10 %}
+                            <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                <div class="product-wrap mb-35" data-aos="fade-up" data-aos-delay="200">
+                                    <div class="product-img img-zoom mb-25">
+                                        <a href="{{product.get_url}}">
+                                            <img src="{{product.main_image.url}}" alt="{{product.main_image_alt}}">
+                                        </a>
+
+                                    </div>
+                                    <div class="product-content">
+                                        <h3><a href="{{product.get_url}}">{{product.product_name}}</a></h3>
+                                        <div class="product-price">
+
+                                            {% if product.sale_price %}
+                                <span class="old-price">${{product.price}} </span>
+                                <span class="new-price">${{product.sale_price}}</span>
+
+                                {% else %}
+                                <span class="new-price">${{product.price}}</span>
+
+                                {% endif %}
+                                          
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+
+
+                        </div>
+                    </div>
+                    <div class="slider-btn btn-hover">
+                        <a href="{% url 'shop_category' category.slug %}" class="btn animated"> 
+                            View All  <i class=" ti-arrow-right "></i>
+                        </a>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+        
+
+
+{% endblock content %}

@@ -1,0 +1,307 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+        <div class="product-details-area pb-100 pt-100">
+            <div class="container">
+                {% if messages %}
+	{% for message in messages %}
+	<p>{{message}}</p>
+	{% endfor %}
+	{% endif %}
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="product-details-img-wrap product-details-vertical-wrap" data-aos="fade-up" data-aos-delay="200">
+                            <div class="product-details-small-img-wrap">
+                                <div class="swiper-container product-details-small-img-slider-1 pd-small-img-style">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide">
+                                            <div class="product-details-small-img">
+                                                <img src="{{ product.main_image.url }}" alt="{{product.main_image_alt}}">
+                                            </div>
+                                        </div>
+                                        {% for image in product_gallery %}
+                                        <div class="swiper-slide">
+                                            <div class="product-details-small-img">
+                                                <img src="{{image.image.url}}" alt="{{image.alt_text}}">
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                        
+                                    </div>
+                                </div>
+                                <div class="pd-prev pd-nav-style"> <i class="ti-angle-up"></i></div>
+                                <div class="pd-next pd-nav-style"> <i class="ti-angle-down"></i></div>
+                            </div>
+                            <div class="swiper-container product-details-big-img-slider-1 pd-big-img-style">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <div class="easyzoom-style">
+                                            {% comment %} To get the image to enlarge add here {% endcomment %}
+                                            <div class="easyzoom easyzoom--overlay">
+                                                <a href="{{product.main_image.url}}">
+                                                    <img src="{{product.main_image.url}}" alt="">
+                                                </a>
+                                            </div>
+                                            <a class="easyzoom-pop-up img-popup" href="{{product.main_image.url}}">
+                                                <i class="pe-7s-search"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    {% for image in product_gallery %}
+                                    <div class="swiper-slide">
+                                        <div class="easyzoom-style">
+                                            <div class="easyzoom easyzoom--overlay">
+                                                <a href="{{image.image.url}}">
+                                                    <img src="{{image.image.url}}" alt="{{image.alt_text}}">
+                                                </a>
+                                            </div>
+                                            <a class="easyzoom-pop-up img-popup" href="{{image.image.url}}">
+                                                <i class="pe-7s-search"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    {% endfor %}
+
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="product-details-content" data-aos="fade-up" data-aos-delay="400">
+                            <h2>{{product.product_name}}</h2>
+                            <div class="product-details-price">
+                                {% if product.sale_price %}
+                                <span class="old-price">${{product.price}} </span>
+                                <span class="new-price">${{product.sale_price}}</span>
+
+                                {% else %}
+                                <span class="new-price">${{product.price}}</span>
+
+                                {% endif %}
+                            </div>
+                            <div class="rating-star">
+                                
+                                  <span>
+                                  <i class="fa fa-star{% if product.average_review == 0.5%}-half-o{% elif product.average_review < 1 %}-o {%endif%}" aria-hidden="true"></i>
+                                  <i class="fa fa-star{% if product.average_review == 1.5%}-half-o{% elif product.average_review < 2 %}-o {%endif%}" aria-hidden="true"></i>
+                                  <i class="fa fa-star{% if product.average_review == 2.5%}-half-o{% elif product.average_review < 3 %}-o {%endif%}" aria-hidden="true"></i>
+                                  <i class="fa fa-star{% if product.average_review == 3.5%}-half-o{% elif product.average_review < 4 %}-o {%endif%}" aria-hidden="true"></i>
+                                  <i class="fa fa-star{% if product.average_review == 4.5%}-half-o{% elif product.average_review < 5 %}-o {%endif%}" aria-hidden="true"></i>
+                          
+                          
+                                  </span>
+                                  
+                                                <span>
+                                <em>{{product.count_review}} review(s)</em>
+                          
+                                </span>
+                              
+                                  </div>
+                            <div class="product-color product-color-active product-details-color">
+                                {% comment %} <span>Color :</span>
+                                <ul>
+                                    <li><a title="Pink" class="pink" href="#">pink</a></li>
+                                    <li><a title="Yellow" class="active yellow" href="#">yellow</a></li>
+                                    <li><a title="Purple" class="purple" href="#">purple</a></li>
+                                </ul> {% endcomment %}
+                            <form action="{% url 'add_cart' product.id %}" method="POST" id="add_cart">
+                                {% csrf_token %}
+                            </div>
+                            <div class="product-details-action-wrap">
+                                <div class="product-quality">
+                                    <input class="cart-plus-minus-box input-text qty text" name="quantity" value="1">
+                                </div>
+                                <div class="single-product-cart btn-hover">
+                                    <a href="javascript:{}" onclick="document.getElementById('add_cart').submit();">Add to cart</a>
+                                </div>
+                            </form>
+
+                            </div>
+                            <div class="product-details-meta">
+                                <ul>
+                                    <li><span class="title">SKU:</span> 
+                                        {{product.slug}}</li>
+                                    <li><span class="title">Category:</span>
+                                        {{product.category}}
+                                    </li>
+
+                                </ul>
+                            </div>
+                            {% comment %} <div class="social-icon-style-4">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-dribbble"></i></a>
+                                <a href="#"><i class="fa fa-pinterest-p"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-linkedin"></i></a>
+                            </div> {% endcomment %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="description-review-area pb-85">
+            <div class="container">
+                <div class="description-review-topbar nav" data-aos="fade-up" data-aos-delay="200">
+                    <a class="active" data-bs-toggle="tab" href="#des-details1"> Description </a>
+                    <a data-bs-toggle="tab" id="" href="#des-details3" class=""> Reviews </a>
+                </div>
+                <div class="tab-content">
+                    <div id="des-details1" class="tab-pane active">
+                        <div class="product-description-content text-center">
+                            {% autoescape off %}
+                            <p data-aos="fade-up" data-aos-delay="200"> {{product.description}} </p>
+                            {% endautoescape %}
+                        </div>
+                    </div>
+
+                    <div id="des-details3" class="tab-pane">
+                        <div class="review-wrapper">
+                            <h3>{{product.count_review}} review(s) for {{product.product_name}}</h3>
+                            {% for review in reviews %}
+                            <div class="single-review">
+                                <div class="review-img">
+                                    <img src="assets/images/product-details/review-1.png" alt="">
+                                </div>
+                                <div class="review-content">
+                                    <div class="review-rating">
+                                        <span>
+                                            <div class="rating-star">
+                                            <span>
+                                            <i class="fa fa-star{% if review.rating == 0.5%}-half-o{% elif review.rating < 1 %}-o {%endif%}" aria-hidden="true"></i>
+                                            <i class="fa fa-star{% if review.rating == 1.5%}-half-o{% elif review.rating < 2 %}-o {%endif%}" aria-hidden="true"></i>
+                                            <i class="fa fa-star{% if review.rating == 2.5%}-half-o{% elif review.rating < 3 %}-o {%endif%}" aria-hidden="true"></i>
+                                            <i class="fa fa-star{% if review.rating == 3.5%}-half-o{% elif review.rating < 4 %}-o {%endif%}" aria-hidden="true"></i>
+                                            <i class="fa fa-star{% if review.rating == 4.5%}-half-o{% elif review.rating < 5 %}-o {%endif%}" aria-hidden="true"></i>
+                            
+                            
+                                            </span>
+                                            
+                                            </div>
+                                        <span>
+                                    </div>
+                                    <h5><span>{{review.name}}</span> - {{review.created_date}}</h5>
+                                    <p>{{review.review}}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+
+                        </div>
+                        <div class="ratting-form-wrapper">
+                            <h3>Add a Review</h3>
+                            <p>Your email address will not be published. Required fields are marked <span>*</span></p>
+                            <div class="ratting-form">
+                                <form action="{% url 'submit_review' product.id %}" method="POST" enctype="multipart/form-data">
+
+                                    {% csrf_token %}
+                            
+                            
+                            <div class="your-rating-wrap">
+                            
+                                <span>Your rating</span>
+                                <div class="your-rating rate review-stars-hover"">
+   
+                                    <input type="radio" name="rating" id="rating10" value="5" required><label for="rating10" title="5"></label>
+	<input type="radio" name="rating" id="rating9" value="4.5" required><label for="rating9" title="4.5" class="half"></label>
+	<input type="radio" name="rating" id="rating8" value="4" required><label for="rating8" title="4"></label>
+	<input type="radio" name="rating" id="rating7" value="3.5" required><label for="rating7" title="3.5" class="half"></label>
+	<input type="radio" name="rating" id="rating6" value="3" required><label for="rating6" title="3"></label>
+	<input type="radio" name="rating" id="rating5" value="2.5" required><label for="rating5" title="2.5" class="half"></label>
+	<input type="radio" name="rating" id="rating4" value="2" required><label for="rating4" title="2"></label>
+	<input type="radio" name="rating" id="rating3" value="1.5" required><label for="rating3" title="1.5" class="half"></label>
+	<input type="radio" name="rating" id="rating2" value="1" required><label for="rating2" title="1"></label>
+	<input type="radio" name="rating" id="rating1" value="0.5" required><label for="rating1" title="0.5" class="half"></label>
+
+
+
+                                </div>
+                            </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="rating-form-style mb-15">
+                                                <label>Name <span>*</span></label>
+                                                <input name="name" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="rating-form-style mb-15">
+                                                <label>Email <span>*</span></label>
+                                                <input name="email" type="email">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="rating-form-style mb-15">
+                                                <label>Your review <span>*</span></label>
+                                                <textarea name="review"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12">
+                                            <div class="form-submit">
+                                                <input type="submit" value="Submit">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="related-product-area pb-95">
+            <div class="container">
+                <div class="section-title-2 st-border-center text-center mb-75" data-aos="fade-up" data-aos-delay="200">
+                    <h2>Related Products</h2>
+                </div>
+                <div class="related-product-active swiper-container">
+                    <div class="swiper-wrapper">
+                        {% for related_prod in related_products %}
+                        {% if  related_prod.id != product.id and forloop.counter < 5 %} 
+                        <div class="">
+                            <div class="product-wrap" data-aos="fade-up" data-aos-delay="200">
+                                <div class="product-img img-zoom mb-25">
+                                    <a href="{{related_prod.get_url}}">
+                                        <img style="max-width:200px;" src="{{related_prod.main_image.url}}" alt="">
+                                    </a>
+                                    <div class="product-badge badge-top badge-right badge-pink">
+                                        <span>-10%</span>
+                                    </div>
+
+                                </div>
+                                <div class="product-content">
+                                    <h3><a href="{{related_prod.get_url}}">{{related_prod.product_name}}</a></h3>
+                                    <div class="product-price">
+                                        {% if related_prod.sale_price %}
+                                <span class="old-price">${{related_prod.price}} </span>
+                                <span class="new-price">${{related_prod.sale_price}}</span>
+
+                                {% else %}
+                                <span class="new-price">${{related_prod.price}}</span>
+
+                                {% endif %}
+
+
+                                        <span class="old-price">$25.89 </span>
+                                        <span class="new-price">$20.25 </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %} 
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+
+{% endblock content %}

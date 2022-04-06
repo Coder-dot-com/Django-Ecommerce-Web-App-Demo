@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="contact-us-area pt-100 pb-65">
+    <div class="container">
+        <div class="section-title-4 text-center mb-50" data-aos="fade-up" data-aos-delay="200">
+            <h2>{{page.page_title|capfirst}}</h2>
+            <br>
+            <hr>
+            <br>
+            <div>
+                <p>
+                    {% autoescape off %}
+                    {{page.page_content}}
+                    {% endautoescape %}
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock content %}
+
+
+

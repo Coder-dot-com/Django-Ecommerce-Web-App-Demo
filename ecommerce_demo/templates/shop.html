@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+        <div class="shop-area pt-100 pb-100">
+            <div class="container">
+                <div class="row flex-row-reverse">
+                    <div class="col-12">
+                        <div class="shop-topbar-wrapper mb-40">
+                            <div class="shop-topbar-left">
+                                <div class="showing-item">
+                                    <span>{{product_count}} product(s) found</span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="shop-bottom-area">
+                            <div class="tab-content jump">
+                                <div id="shop-1" class="tab-pane active">
+                                    <div class="row">
+                                        {% if products %}
+                                        {% for product in products %}
+                                        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                            <div class="product-wrap mb-35" data-aos="fade-up" data-aos-delay="200">
+                                                <div class="product-img img-zoom mb-25">
+                                                    <a href="{{product.get_url}}">
+                                                        <img src="{{product.main_image.url}}" alt="{{product.main_image_alt}}">
+                                                    </a>
+
+                                                </div>
+                                                <div class="product-content">
+                                                    <h3><a href="{{product.get_url}}">{{product.product_name}}</a></h3>
+                                                    <div class="product-price">
+
+                                                        {% if product.sale_price %}
+                                                        <span class="old-price">${{product.price}} </span>
+                                                        <span class="new-price">${{product.sale_price}}</span>
+
+                                                        {% else %}
+                                                        <span class="new-price">${{product.price}}</span>
+
+                                                        {% endif %}
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                        {% else %}
+                                        <h3>No products found</h3>
+                                        {% endif %}
+
+
+                                    </div>
+                                    <div class="pagination-style-1" data-aos="fade-up" data-aos-delay="200">
+                                        <ul>
+                                            {% for i in products.paginator.page_range %}
+                                            {% if products.number == i %}
+
+
+                                            <li><a class="active" href="#">{{i}}</a></li>
+                                            {% else %}
+
+                                            <li><a href="?page={{i}}">{{i}}</a></li>
+                                            {% endif %}
+                                            {% endfor %}
+                                            {% if products.has_next %}
+
+                                            <li><a class="next" href="?page={{products.next_page_number}}"><i class=" ti-angle-double-right "></i></a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+
+{% endblock content %}
