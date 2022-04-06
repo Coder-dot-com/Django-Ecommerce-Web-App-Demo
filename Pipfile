@@ -9,6 +9,12 @@ django-tinymce = "*"
 pillow = "*"
 stripe = "*"
 python-decouple = "*"
+celery = "*"
+redis = "*"
+psycopg2-binary = "*"
+django-storages = "*"
+boto3 = "*"
+gunicorn = "*"
 
 [dev-packages]
 
