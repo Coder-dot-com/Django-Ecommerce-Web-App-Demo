@@ -4,7 +4,7 @@ from django.urls import reverse
 
 from cart.models import Cart, CartItem, ShippingOption
 from cart.views import _cart_id
-from ecommerce_demo.emails.tasks import order_placed_email
+from emails.tasks import order_placed_email
 from ecommerce_demo.settings import STRIPE_PUBLIC_KEY, STRIPE_SECRET_KEY, STRIPE_ENDPOINT_SECRET
 from order.forms import OrderForm
 from order.models import Order, OrderProduct, Payment
